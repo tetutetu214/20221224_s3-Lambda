@@ -89,8 +89,14 @@ Resources:
             Status: Enabled
             ExpirationInDays: !Ref ExpirationInDays
       NotificationConfiguration:
-        EventBridgeConfiguration: 
-          EventBridgeEnabled: !Ref EventBridgeConfiguration
+        LambdaConfigurations:
+          - Event: "s3:ObjectCreated:*"
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: suffix
+                    Value: .zip
+            Function: !ImportValue cfn-lmd-inamura-arn
 
 # ------------------------------------------------------------#
 #  Outputs
