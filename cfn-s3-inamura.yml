@@ -17,6 +17,9 @@ Metadata:
         - RestrictPublicBuckets
         - ExpirationInDays
         - EventBridgeConfiguration
+        - Prefix
+        - Suffix
+
 # ------------------------------------------------------------#
 #  InputParameters
 # ------------------------------------------------------------#
@@ -58,12 +61,14 @@ Parameters:
     Type: String
     Description: Lifecycle Days.
     Default: "7"
-  EventBridgeConfiguration:
+  Prefix:
     Type: String
-    Description: EventBridgeConfiguration.
-    Default: "true"
-    AllowedValues: [ "true", "false" ]
-
+    Description: Lambdafunction Trigger Prefix.
+    Default: "infra"
+  Suffix:
+    Type: String
+    Description: Lambdafunction Trigger Suffix
+    Default: "zip"
 # ------------------------------------------------------------#
 #  Resources
 # ------------------------------------------------------------#
@@ -94,8 +99,10 @@ Resources:
             Filter:
               S3Key:
                 Rules:
+                  - Name: prefix
+                    Value: !Ref Prefix
                   - Name: suffix
-                    Value: .zip
+                    Value: !Ref Suffix
             Function: !ImportValue cfn-lmd-inamura-arn
 
 # ------------------------------------------------------------#

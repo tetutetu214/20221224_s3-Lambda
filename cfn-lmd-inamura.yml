@@ -110,22 +110,19 @@ Resources:
               - Effect: "Allow"
                 Action:
                   - "s3:*" 
-                Resource: !Sub 
-                  - "arn:aws:s3:::${BucketName}/*"
-                  - BucketName: {'Fn::ImportValue': cfn-s3-BucketName}
+                Resource: !Sub "arn:${AWS::Partition}:s3:::*"
+#                  - "arn:aws:s3:::${BucketName}/*"
+#                  - BucketName: {'Fn::ImportValue': cfn-s3-BucketName}
 
   TriggerLambdaPermission:
     Type: "AWS::Lambda::Permission"
     Properties:
       Action: "lambda:InvokeFunction"
-      FunctionName: !GetAtt 
-        - Lambda
-        - Arn
+      FunctionName: !GetAtt Lambda.Arn
       Principal: "s3.amazonaws.com"
-      SourceArn: !Join 
-                  - ""
-                  - - "arn:aws:s3:::"
-                    - "cfn-s3-20221224-inamura"
+      SourceArn: !Sub "arn:${AWS::Partition}:s3:::*"
+#                  - "arn:aws:s3:::${BucketName}"
+#                  - BucketName: {'Fn::ImportValue': cfn-s3-BucketName}
 
 # ------------------------------------------------------------#
 # Output Parameters
