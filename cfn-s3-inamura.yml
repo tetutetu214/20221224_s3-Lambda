@@ -19,6 +19,7 @@ Metadata:
         - EventBridgeConfiguration
         - Prefix
         - Suffix
+        - TagsName
 
 # ------------------------------------------------------------#
 #  InputParameters
@@ -69,6 +70,11 @@ Parameters:
     Type: String
     Description: Lambdafunction Trigger Suffix
     Default: "zip"
+  TagsName:
+    Type: String
+    Description: UserName
+    Default: "inamura"
+  
 # ------------------------------------------------------------#
 #  Resources
 # ------------------------------------------------------------#
@@ -104,7 +110,9 @@ Resources:
                   - Name: suffix
                     Value: !Ref Suffix
             Function: !ImportValue cfn-lmd-inamura-arn
-
+      Tags:
+        - Key: "User"
+          Value: !Ref TagsName
 # ------------------------------------------------------------#
 #  Outputs
 # ------------------------------------------------------------#
