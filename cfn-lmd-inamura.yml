@@ -114,6 +114,19 @@ Resources:
                   - "arn:aws:s3:::${BucketName}/*"
                   - BucketName: {'Fn::ImportValue': cfn-s3-BucketName}
 
+  TriggerLambdaPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !GetAtt 
+        - Lambda
+        - Arn
+      Principal: "s3.amazonaws.com"
+      SourceArn: !Join 
+                  - ""
+                  - - "arn:aws:s3:::"
+                    - "cfn-s3-20221224-inamura"
+
 # ------------------------------------------------------------#
 # Output Parameters
 #------------------------------------------------------------#          
